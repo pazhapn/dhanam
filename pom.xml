@@ -6,5 +6,7 @@
   <packaging>pom</packaging>
   <modules>
   	<module>dhanam-common</module>
+  	<module>dhanam-backend</module>
+  	<module>dhanam-frontend</module>
   </modules>
 </project>
