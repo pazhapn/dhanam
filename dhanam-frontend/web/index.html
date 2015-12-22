@@ -5,16 +5,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="static/bs/css/bootstrap.min.css">
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+	<link href="//www.fuelcdn.com/fuelux/3.13.0/css/fuelux.min.css" rel="stylesheet">
 	
-	<!-- Optional theme -->
-	<link rel="stylesheet" href="static/bs/css/bootstrap-theme.min.css">
+	<!-- Optional theme 
+	<link rel="stylesheet" href="static/bs/css/bootstrap-theme.min.css">-->
 	<link rel="stylesheet" href="static/css/styles.css">
 	<script>
 		var requestId = "fewsfdfwer";		
 	</script>
 </head>
-<body>
+<body class="fuelux">
 	<div>
 		<div id="listSection" style="float:left;display: block;">
 			<div id="flights-list"  class="list-group">
@@ -36,16 +37,19 @@
 			},
 		  paths: {
 		    jquery: [
-		      '/static/lib/jquery-1.11.3.min' 
+				'//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min',
+				'/static/lib/jquery-1.11.3.min' 
 		    ],
 		    d3: [
 		      '/static/lib/d3.min' 
 		    ],
 			moment: [
-		      '/static/lib/moment' 
+				'//cdn.jsdelivr.net/momentjs/2.10.6/moment.min',
+		      	'/static/lib/moment.min' 
 		    ],
 			momenttimezone: [
-		      '/static/lib/moment-timezone-with-data.min' 
+				'//cdn.jsdelivr.net/momentjs.timezone/0.4.1/moment-timezone-with-data.min',			                 
+				'/static/lib/moment-timezone-with-data.min' 
 		    ],
 		    crossfilter: [
 		      '/static/lib/crossfilter' 
@@ -57,28 +61,34 @@
 			  '/static/views/templates.min' 
 		    ],
 		    bootstrap: [
-		      '/static/bs/js/bootstrap.min' 
+				'//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min',
+				'/static/bs/js/bootstrap.min' 
+		    ],
+		    fuelux: [
+				'//www.fuelcdn.com/fuelux/3.13.0/js/fuelux.min',
+				'/static/fuel/3.13.0/js/bootstrap.min' 
 		    ],
 		    app: [
 		      '/static/scripts/app.un'
 		    ]
 		  },
 		  shim: {
-		    d3: ['jquery'],
+			bootstrap: { deps: ['jquery'] },
+			d3: ['jquery'],
 			moment: {deps:['jquery'], exports: "moment"},
 			momenttimezone:['moment'],
 			app:['d3','moment','momenttimezone','nunj', 'templates', 'bootstrap']
 		  }
 		});
 		//  requirejs(["app"]);
-		requirejs(['jquery', 'd3', 'moment', 'momenttimezone', 'crossfilter', 'nunj', 'app', 'bootstrap'], 
-			function($, d3, moment, timezone, crossfilter, nunj, app, bootstrap) {				
+		requirejs(['jquery', 'd3', 'moment', 'momenttimezone', 'crossfilter', 'nunj', 'bootstrap', 'fuelux', 'app'], 
+			function($, d3, moment, timezone, crossfilter, nunj, bootstrap, fuelux, app) {				
 			$( document ).ready(function() {
 				//var env = nunj.configure('/static/views', { autoescape: true });
 				console.log(moment().format('dddd, MMMM Do YYYY, h:mm:ss a'));
 				//console.log('registering Datas '+requestId);
-		      var flightController = new Flights.FlightController();
-		      flightController.getFlights();
+		      //var flightController = new Flights.FlightController();
+		      //flightController.getFlights();
 		  });
 		});
 	</script>
