@@ -54,6 +54,18 @@
       <div class="jumbotron">
         <p>This example is a quick exercise to illustrate how the default.</p>
         
+        <div class="spinbox" id="usLoanAmount" >
+          <input type="text" class="form-control input-mini spinbox-input">
+          <div class="spinbox-buttons btn-group btn-group-vertical">
+            <button type="button" class="btn btn-default spinbox-up btn-xs">
+              <span class="glyphicon glyphicon-chevron-up"></span><span class="sr-only">Increase</span>
+            </button>
+            <button type="button" class="btn btn-default spinbox-down btn-xs">
+              <span class="glyphicon glyphicon-chevron-down"></span><span class="sr-only">Decrease</span>
+            </button>
+          </div>
+        </div>
+        
       </div>
 
     </div> <!-- /container -->
@@ -122,12 +134,14 @@
 		//  requirejs(["app"]);
 		requirejs(['jquery', 'd3', 'moment', 'momenttimezone', 'crossfilter', 'nunj', 'bootstrap', 'fuelux', 'app'], 
 			function($, d3, moment, timezone, crossfilter, nunj, bootstrap, fuelux, app) {				
-			$( document ).ready(function() {
+			$( document ).ready(function() {  
+        
+            //$.off('fu.data-api');
 				//var env = nunj.configure('/static/views', { autoescape: true });
 				console.log(moment().format('dddd, MMMM Do YYYY, h:mm:ss a'));
 				//console.log('registering Datas '+requestId);
-		      //var flightController = new Flights.FlightController();
-		      //flightController.getFlights();
+        var houseLoanBalTransfer = new Dhanam.HouseLoanBalTransfer();
+		    houseLoanBalTransfer.initializeElements();
 		  });
 		});
 	</script>
