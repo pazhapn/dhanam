@@ -46,6 +46,7 @@ gulp.task('cssmin', function(){
   });
 });
 
+/*
 gulp.task('sass', function() {
   return gulp.src(sassPath)
   .pipe(plumber())
@@ -68,7 +69,6 @@ gulp.task('sass', function() {
     console.error('Error', err.message);
   });
 });
-/*
 gulp.task('sass', function() {
     return sass(sassPath, { style: 'expanded', sourcemap: true})
         .pipe(sourcemaps.write('maps', {
@@ -159,4 +159,5 @@ gulp.task('webserver', function() {
 //gulp.task('default', ['traceur', 'babel', 'watch']);
 //gulp.task('default', ['watch', 'typescript', 'js', 'sass', 'require']);
 //gulp.task('default', ['watch', 'typescript', 'sass', 'require','webserver', 'nunjucks']);
-gulp.task('default', ['watch', 'move', 'typescript', 'sass', 'require','nunjucks', 'cssmin']);
+//gulp.task('default', ['watch', 'move', 'typescript', 'sass', 'require','nunjucks', 'cssmin']);
+gulp.task('default', ['watch', 'move', 'typescript', 'require','nunjucks', 'cssmin']);

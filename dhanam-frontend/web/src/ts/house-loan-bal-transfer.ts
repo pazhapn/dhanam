@@ -13,8 +13,7 @@ declare var requestId: string;
 module Dhanam {
     
     /**
-     * HouseLoanBalTransfer getFlight() is the starting point for the flight search GUI screen
-     * 
+     * HouseLoanBalTransfer calculate() is the starting point for the flight search GUI screen
      */
     export class HouseLoanBalTransfer {
         

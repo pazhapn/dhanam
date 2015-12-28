@@ -35,8 +35,9 @@ public class RoutesHandler {
 			return new ModelAndView(map, "base");
         }, new PebbleTemplateEngine(webConfig.getEngine()));
 
-		this.authRoutes();
-		get("/jj:title", (req, res) -> {
+		this.loginRoutes();
+		this.authorRoutes();
+		get("/:title", (req, res) -> {
 			Map<String, Object> map = new HashMap<>();
 			return new ModelAndView(map, req.params(":title"));
         }, new PebbleTemplateEngine(webConfig.getEngine()));
@@ -49,8 +50,14 @@ public class RoutesHandler {
 		    response.body("Resource not found");
 		});
 	}
-	
-	private void authRoutes(){
+	private void authorRoutes(){
+		get("/author", (req, res) -> {
+			Map<String, Object> map = new HashMap<>();
+			return new ModelAndView(map, "author");
+        }, new PebbleTemplateEngine(webConfig.getEngine()));
+	}
+	//TODO login failed message
+	private void loginRoutes(){
 		get("/login", (req, res) -> {
 			return new ModelAndView(new HashMap<>(), "login");
         }, new PebbleTemplateEngine(webConfig.getEngine()));
@@ -71,13 +78,13 @@ public class RoutesHandler {
 			LoginResult result = webConfig.getService().checkAuthor(user);
 			if(result.getAuthor() != null) {
 				addAuthenticatedAuthor(req, result.getAuthor());
-				res.redirect("/");
+				res.redirect("/author");
 				halt();
 			} else {
 				map.put("error", result.getError());
 			}
 			map.put("username", user.getAuthorId());
-			return new ModelAndView(map, "login.ftl");
+			return new ModelAndView(map, "login");
         }, new PebbleTemplateEngine(webConfig.getEngine()));
 		/*
 		 * Checks if the user is already authenticated
@@ -85,7 +92,7 @@ public class RoutesHandler {
 		before("/login", (req, res) -> {
 			Author authUser = getAuthenticatedAuthor(req);
 			if(authUser != null) {
-				res.redirect("/");
+				res.redirect("/author");
 				halt();
 			}
 		});
