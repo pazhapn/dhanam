@@ -17,8 +17,11 @@ import spark.template.pebble.PebbleTemplateEngine;
 import org.apache.commons.beanutils.BeanUtils;
 import org.eclipse.jetty.util.MultiMap;
 import org.eclipse.jetty.util.UrlEncoded;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class RoutesHandler {
+	private static final Logger log = LoggerFactory.getLogger(RoutesHandler.class);
 	private static final String AUTHOR_SESSION_ID = "a";
 	private WebConfig webConfig;
 	
@@ -32,7 +35,8 @@ public class RoutesHandler {
 			return new ModelAndView(map, "base");
         }, new PebbleTemplateEngine(webConfig.getEngine()));
 
-		get("/:title", (req, res) -> {
+		this.authRoutes();
+		get("/jj:title", (req, res) -> {
 			Map<String, Object> map = new HashMap<>();
 			return new ModelAndView(map, req.params(":title"));
         }, new PebbleTemplateEngine(webConfig.getEngine()));
@@ -40,7 +44,6 @@ public class RoutesHandler {
 		get("/throwexception", (request, response) -> {
 		    throw new Exception();
 		});
-
 		exception(Exception.class, (e, request, response) -> {
 		    response.status(404);
 		    response.body("Resource not found");
