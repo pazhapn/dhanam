@@ -3,7 +3,7 @@
 declare module JQuerySpinBox {
 
     interface SpinBoxOptions {
-        value?: number;
+        value?: string|number;
         min?: number;
 		max?: number;
 		step?: number;
@@ -17,7 +17,7 @@ declare module JQuerySpinBox {
 }
 
 interface JQueryStatic {
-	off(tag:string): JQuery;
+	off(tag:string): void;
 }
 
 interface JQuery {

@@ -10,11 +10,8 @@
 	
 	<!-- Optional theme 
 	<link rel="stylesheet" href="static/bs/css/bootstrap-theme.min.css">-->
-  <link href="static/css/sticky-footer-navbar.css" rel="stylesheet">
+    <link href="static/css/sticky-footer-navbar.css" rel="stylesheet">
 	<link rel="stylesheet" href="static/css/styles.css">
-	<script>
-		var requestId = "fewsfdfwer";		
-	</script>
 </head>
 <body class="fuelux">
 	<div class="container">
@@ -53,18 +50,130 @@
       <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron">
         <p>This example is a quick exercise to illustrate how the default.</p>
-        
-        <div class="spinbox" id="usLoanAmount" >
-          <input type="text" class="form-control input-mini spinbox-input">
-          <div class="spinbox-buttons btn-group btn-group-vertical">
-            <button type="button" class="btn btn-default spinbox-up btn-xs">
-              <span class="glyphicon glyphicon-chevron-up"></span><span class="sr-only">Increase</span>
-            </button>
-            <button type="button" class="btn btn-default spinbox-down btn-xs">
-              <span class="glyphicon glyphicon-chevron-down"></span><span class="sr-only">Decrease</span>
-            </button>
-          </div>
-        </div>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th colspan="2" class="text-center">Balance Transfer Details</th>
+              <th colspan="2" class="text-center">India Home Loan</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Bal Transfer Amount</td>
+              <td>
+                <div class="spinbox" id="usLoanAmountSpin" >
+                  <input id="usLoanAmount" type="text" class="form-control input-mini spinbox-input">
+                  <div class="spinbox-buttons btn-group btn-group-vertical">
+                    <button type="button" class="btn btn-default spinbox-up btn-xs">
+                      <span class="glyphicon glyphicon-chevron-up"></span><span class="sr-only">Increase</span>
+                    </button>
+                    <button type="button" class="btn btn-default spinbox-down btn-xs">
+                      <span class="glyphicon glyphicon-chevron-down"></span><span class="sr-only">Decrease</span>
+                    </button>
+                  </div>
+                </div>
+              </td>
+              <td>India Loan APR %</td>
+              <td>
+                <div class="spinbox" id="indiaLoanAPRSpin" >
+                  <input id="indiaLoanAPR" type="text" class="form-control input-mini spinbox-input">
+                  <div class="spinbox-buttons btn-group btn-group-vertical">
+                    <button type="button" class="btn btn-default spinbox-up btn-xs">
+                      <span class="glyphicon glyphicon-chevron-up"></span><span class="sr-only">Increase</span>
+                    </button>
+                    <button type="button" class="btn btn-default spinbox-down btn-xs">
+                      <span class="glyphicon glyphicon-chevron-down"></span><span class="sr-only">Decrease</span>
+                    </button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a href="#" id="usLoanFeeLabel" >Bal Tx Fee %</a>
+              </td>
+              <td>
+                <div class="spinbox" id="usLoanFeeSpin" >
+                  <input id="usLoanFee" type="text" class="form-control input-mini spinbox-input">
+                  <div class="spinbox-buttons btn-group btn-group-vertical">
+                    <button type="button" class="btn btn-default spinbox-up btn-xs">
+                      <span class="glyphicon glyphicon-chevron-up"></span><span class="sr-only">Increase</span>
+                    </button>
+                    <button type="button" class="btn btn-default spinbox-down btn-xs">
+                      <span class="glyphicon glyphicon-chevron-down"></span><span class="sr-only">Decrease</span>
+                    </button>
+                  </div>
+                </div>
+              </td>
+              
+              <td>US savings APR %</td>
+              <td>
+                <div class="spinbox" id="usSavingsAPRSpin" >
+                  <input id="usSavingsAPR" type="text" class="form-control input-mini spinbox-input">
+                  <div class="spinbox-buttons btn-group btn-group-vertical">
+                    <button type="button" class="btn btn-default spinbox-up btn-xs">
+                      <span class="glyphicon glyphicon-chevron-up"></span><span class="sr-only">Increase</span>
+                    </button>
+                    <button type="button" class="btn btn-default spinbox-down btn-xs">
+                      <span class="glyphicon glyphicon-chevron-down"></span><span class="sr-only">Decrease</span>
+                    </button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>Offer Months</td>
+              <td>
+                <div class="spinbox" id="usLoanMonthsSpin" >
+                  <input id="usLoanMonths" type="text" class="form-control input-mini spinbox-input">
+                  <div class="spinbox-buttons btn-group btn-group-vertical">
+                    <button type="button" class="btn btn-default spinbox-up btn-xs">
+                      <span class="glyphicon glyphicon-chevron-up"></span><span class="sr-only">Increase</span>
+                    </button>
+                    <button type="button" class="btn btn-default spinbox-down btn-xs">
+                      <span class="glyphicon glyphicon-chevron-down"></span><span class="sr-only">Decrease</span>
+                    </button>
+                  </div>
+                </div>
+              </td>
+              
+              <td>Current rate Rs / $</td>
+              <td>
+                <div class="spinbox" id="currentConversionRateSpin" >
+                  <input id="currentConversionRate" type="text" class="form-control input-mini spinbox-input">
+                  <div class="spinbox-buttons btn-group btn-group-vertical">
+                    <button type="button" class="btn btn-default spinbox-up btn-xs">
+                      <span class="glyphicon glyphicon-chevron-up"></span><span class="sr-only">Increase</span>
+                    </button>
+                    <button type="button" class="btn btn-default spinbox-down btn-xs">
+                      <span class="glyphicon glyphicon-chevron-down"></span><span class="sr-only">Decrease</span>
+                    </button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" class="text-center">
+                <button id="calculate" type="button" class="btn btn-success">Recalculate</button>
+              </td>
+              
+              <td>Future rate Rs / $</td>
+              <td>
+                <div class="spinbox" id="futureConversionRateSpin" >
+                  <input id="futureConversionRate" type="text" class="form-control input-mini spinbox-input">
+                  <div class="spinbox-buttons btn-group btn-group-vertical">
+                    <button type="button" class="btn btn-default spinbox-up btn-xs">
+                      <span class="glyphicon glyphicon-chevron-up"></span><span class="sr-only">Increase</span>
+                    </button>
+                    <button type="button" class="btn btn-default spinbox-down btn-xs">
+                      <span class="glyphicon glyphicon-chevron-down"></span><span class="sr-only">Decrease</span>
+                    </button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
         
       </div>
 
@@ -142,6 +251,7 @@
 				//console.log('registering Datas '+requestId);
         var houseLoanBalTransfer = new Dhanam.HouseLoanBalTransfer();
 		    houseLoanBalTransfer.initializeElements();
+        houseLoanBalTransfer.calculate();
 		  });
 		});
 	</script>

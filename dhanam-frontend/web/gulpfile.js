@@ -11,7 +11,7 @@ var gulp = require('gulp'), clean = require('gulp-clean'), include = require('gu
   tsPath = ['src/ts/**/*.ts'], jsPath = ['src/js/site/*.js'], sassPath = 'src/sass/**/*.scss',
   requirePath = 'src/require/*.js', compilePath = 'build/', cssCompilePath = compilePath + 'css',
   jsCompilePath = compilePath + 'js', connect = require('gulp-connect'),
-  delFiles = [compilePath, 'static/scripts/*.min.js', compilePath+'css'];
+  delFiles = [compilePath, 'static/scripts/*.min.js', compilePath+'css'], staticPath='';
 
 gulp.task('clean', function() {
   return gulp.src(delFiles, {
@@ -19,6 +19,33 @@ gulp.task('clean', function() {
     })
     .pipe(clean());
 });
+
+gulp.task('move', function(){
+  // the base option sets the relative root for the set of files,
+  // preserving the folder structure
+  gulp.src(['src/css/**/*.css'])
+  .pipe(gulp.dest('static/work-css'));
+});
+
+gulp.task('cssmin', function(){
+  // the base option sets the relative root for the set of files,
+  // preserving the folder structure
+  gulp.src(['static/work-css/**/*.css'])
+  .pipe(plumber())
+  .pipe(sourcemaps.init())
+  .pipe(concat("bundle.un.css"))
+  .pipe(sourcemaps.write())
+  .pipe(gulp.dest(staticPath+'static/css'))
+  .pipe(rename('bundle.min.css'))
+  .pipe(minifyCss())
+  .pipe(gulp.dest(staticPath+'static/css'))
+  .pipe(plumber.stop())
+  .pipe(connect.reload())
+  .on('error', function (err) {
+    console.error('Error', err.message);
+  });
+});
+
 gulp.task('sass', function() {
   return gulp.src(sassPath)
   .pipe(plumber())
@@ -34,7 +61,7 @@ gulp.task('sass', function() {
   .pipe(gulp.dest('static/css'))
   .pipe(rename('app.min.css'))
   .pipe(minifyCss())
-  .pipe(gulp.dest('static/css'))
+  .pipe(gulp.dest(staticPath+'static/css'))
   .pipe(plumber.stop())
   .pipe(connect.reload())
   .on('error', function (err) {
@@ -71,7 +98,7 @@ gulp.task('require', function() {
   .pipe(plumber())
   .pipe(gulp.dest(compilePath+'/js'))
   .pipe(uglify())
-  .pipe(gulp.dest('static/scripts'))
+  .pipe(gulp.dest(staticPath+'static/scripts'))
   .pipe(plumber.stop());
 });
 
@@ -79,14 +106,14 @@ gulp.task('typescript', function() {
   var tsresult = gulp.src(tsPath)
   .pipe(plumber())
   .pipe(sourcemaps.init())
-  .pipe(typescript({sortOutput: true}));
+  .pipe(typescript({sortOutput: true, module:'amd'}));
   return tsresult.js
   .pipe(concat('app.un.js'))
   .pipe(sourcemaps.write())
   .pipe(gulp.dest('static/scripts'))
   .pipe(rename('app.min.js'))
   .pipe(uglify())
-  .pipe(gulp.dest('static/scripts'))
+  .pipe(gulp.dest(staticPath+'static/scripts'))
   .pipe(plumber.stop())
   .pipe(connect.reload())
   .on('error', function (err) {
@@ -104,7 +131,7 @@ gulp.task('nunjucks', function () {
   .pipe(gulp.dest('static/views'))
   .pipe(rename('templates.min.js'))
   .pipe(uglify())
-  .pipe(gulp.dest('static/views'))
+  .pipe(gulp.dest(staticPath+'static/views'))
   .pipe(plumber.stop())
   .pipe(connect.reload())
   .on('error', function (err) {
@@ -114,20 +141,22 @@ gulp.task('nunjucks', function () {
 
 gulp.task('watch', function() {
   gulp.watch('src/templates/*.nunj', ['nunjucks']);
+  gulp.watch('src/htm/**/*.htm');
   gulp.watch(tsPath, ['typescript']);
   //gulp.watch(jsPath, ['js']);
   gulp.watch(cssCompilePath, ['css']);
   gulp.watch(sassPath, ['sass']);
   gulp.watch(requirePath, ['require']);
 });
-
+/*
 gulp.task('webserver', function() {
   connect.server({
     livereload: true,
     port: 8080
   });
 });
-
+*/
 //gulp.task('default', ['traceur', 'babel', 'watch']);
 //gulp.task('default', ['watch', 'typescript', 'js', 'sass', 'require']);
-gulp.task('default', ['watch', 'typescript', 'sass', 'require','webserver', 'nunjucks']);
+//gulp.task('default', ['watch', 'typescript', 'sass', 'require','webserver', 'nunjucks']);
+gulp.task('default', ['watch', 'move', 'typescript', 'sass', 'require','nunjucks', 'cssmin']);

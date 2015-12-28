@@ -2,3 +2,5 @@
 /.classpath
 /.project
 /target/
+/online.log
+/LOG_DIR_IS_UNDEFINED/
