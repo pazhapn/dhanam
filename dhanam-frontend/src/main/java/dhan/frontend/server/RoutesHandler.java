@@ -37,11 +37,7 @@ public class RoutesHandler {
 
 		this.loginRoutes();
 		this.authorRoutes();
-		get("/:title", (req, res) -> {
-			Map<String, Object> map = new HashMap<>();
-			return new ModelAndView(map, req.params(":title"));
-        }, new PebbleTemplateEngine(webConfig.getEngine()));
-		
+		this.postRoutes();
 		get("/throwexception", (request, response) -> {
 		    throw new Exception();
 		});
@@ -50,11 +46,38 @@ public class RoutesHandler {
 		    response.body("Resource not found");
 		});
 	}
-	private void authorRoutes(){
-		get("/author", (req, res) -> {
+	
+	private void postRoutes(){
+		get("/:title", (req, res) -> {
 			Map<String, Object> map = new HashMap<>();
+			return new ModelAndView(map, req.params(":title"));
+        }, new PebbleTemplateEngine(webConfig.getEngine()));
+	}
+	
+	private void authorRoutes(){
+		get("/author/home", (req, res) -> {
+			Author author = getAuthenticatedAuthor(req);
+			Map<String, Object> map = new HashMap<>();
+			map.put("authorId", author.getAuthorId());
+			map.put("drafts", webConfig.getService().getDrafts(author));
 			return new ModelAndView(map, "author");
         }, new PebbleTemplateEngine(webConfig.getEngine()));
+		
+		get("/edit/:authorId/:title", (req, res) -> {
+			Map<String, Object> map = new HashMap<>();
+			map.put("authorId", req.params(":authorId"));
+			map.put("title", req.params(":title"));
+			map.put("draft", webConfig.getService().getDraft(req.params(":authorId"), req.params(":title")));
+			return new ModelAndView(map, "edit");
+        }, new PebbleTemplateEngine(webConfig.getEngine()));
+		
+		before("/author/*", (req, res) -> {
+			Author authUser = getAuthenticatedAuthor(req);
+			if(authUser == null) {
+				res.redirect("/login");
+				halt();
+			}
+		});
 	}
 	//TODO login failed message
 	private void loginRoutes(){
@@ -78,7 +101,7 @@ public class RoutesHandler {
 			LoginResult result = webConfig.getService().checkAuthor(user);
 			if(result.getAuthor() != null) {
 				addAuthenticatedAuthor(req, result.getAuthor());
-				res.redirect("/author");
+				res.redirect("/author/home");
 				halt();
 			} else {
 				map.put("error", result.getError());
@@ -92,7 +115,7 @@ public class RoutesHandler {
 		before("/login", (req, res) -> {
 			Author authUser = getAuthenticatedAuthor(req);
 			if(authUser != null) {
-				res.redirect("/author");
+				res.redirect("/author/home");
 				halt();
 			}
 		});
@@ -106,13 +129,11 @@ public class RoutesHandler {
         });
 	}
 	private void addAuthenticatedAuthor(Request request, Author u) {
-		request.session().attribute(AUTHOR_SESSION_ID, u);
-		
+		request.session().attribute(AUTHOR_SESSION_ID, u);		
 	}
 
 	private void removeAuthenticatedAuthor(Request request) {
-		request.session().removeAttribute(AUTHOR_SESSION_ID);
-		
+		request.session().removeAttribute(AUTHOR_SESSION_ID);		
 	}
 
 	private Author getAuthenticatedAuthor(Request request) {

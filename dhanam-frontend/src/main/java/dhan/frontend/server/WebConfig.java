@@ -32,7 +32,8 @@ public class WebConfig {
 		}else{
 			this.engine = new PebbleEngine.Builder().loader(loader).build();
 		}
-		this.service = new BlogService(this.prop.getProperty("authorFolder"), this.prop.getProperty("postFolder"));
+		this.service = new BlogService(this.prop.getProperty("authorFolder"), 
+				this.prop.getProperty("postFolder"), this.prop.getProperty("draftFolder"));
 	}
 
 	public static Properties getProperties(String propsFilePath) throws Exception{

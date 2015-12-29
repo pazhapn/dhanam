@@ -2,5 +2,19 @@
 
 
 {% block content %}
-    author page
+<a href="/edit/{{authorId}}/new"/>Create New Post</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Drafts</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for draft in drafts %}
+        <tr>
+            <th scope="row"><a href="/edit/{{authorId}}/{{draft}}"/>{{draft}}</a></th>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}
