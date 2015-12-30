@@ -1,16 +1,87 @@
 {% extends "base" %}
 
+{% block cssContent %}
+      <link href="http://netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.css" rel="stylesheet">
+      <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.7.0/summernote.min.css" rel="stylesheet">
+{% endblock %}
+{% block scriptContent %}
 
+{% endblock %}
+    
 {% block content %}
-    <form method="post" action="/login">
+    <form method="post" action="/edit/{{status}}/">
   <div class="form-group">
-    <label for="exampleInputEmail1">Email address</label>
-    <input name="authorId" type="text" class="form-control" id="exampleInputEmail1" placeholder="Username">
+    <label for="title">Title</label>
+    <input name="id" type="hidden" value="{{id}}"/>
+    <input name="authorId" type="hidden" value="{{authorId}}"/>
+    <input name="status" type="hidden" value="{{status}}"/>
+    <input name="postDate" type="hidden" value="{{postDate}}"/>
+    <input name="title" type="text" class="form-control" id="title" value="{{title}}">
   </div>
   <div class="form-group">
-    <label for="exampleInputPassword1">Password</label>
-    <input name="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+    <label for="tags">Tags</label>
+    <input name="tags" type="text" class="form-control" id="tags" value="{{tags}}">
+  </div>
+  <div class="form-group">
+    <label for="initialParas">Initial Paragraphs</label>
+    <textarea name="initialParas" class="summernote" value="{{initialParas}}"></textarea>
+  </div>
+  <div class="form-group">
+    <label for="remainingParas">Remaining Full Paragraphs</label>
+    <textarea name="remainingParas" class="summernote" value="{{remainingParas}}"></textarea>
   </div>
   <button type="submit" class="btn btn-default">Submit</button>
 </form>
 {% endblock %}
+
+{% block closeToBody %}
+  	<script>
+		requirejs.config({
+		  //To get timely, correct error triggers in IE, force a define/shim exports
+			//enforceDefine: true,		  
+			config: {
+				'moment': {
+					noGlobal: true
+				}
+			},
+		  paths: {
+		    jquery: [
+				'//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min',
+				'/static/lib/jquery-1.11.3.min' 
+		    ],
+			moment: [
+				'//cdn.jsdelivr.net/momentjs/2.10.6/moment.min',
+		      	'/static/lib/moment.min' 
+		    ],
+			momenttimezone: [
+				'//cdn.jsdelivr.net/momentjs.timezone/0.4.1/moment-timezone-with-data.min',			                 
+				'/static/lib/moment-timezone-with-data.min' 
+		    ],
+		    bootstrap: [
+				'//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min',
+				'/static/bs/js/bootstrap.min' 
+		    ],
+		    fuelux: [
+				'//www.fuelcdn.com/fuelux/3.13.0/js/fuelux.min',
+				'/static/fuel/3.13.0/js/bootstrap.min' 
+		    ],
+		    summernote: [
+		      '//cdnjs.cloudflare.com/ajax/libs/summernote/0.7.0/summernote.min'
+		    ]
+		  },
+		  shim: {
+			bootstrap: { deps: ['jquery'] },
+            fuelux: { deps : ['bootstrap'] },
+			summernote:['jquery','bootstrap','fuelux','moment','momenttimezone']
+		  }
+		});
+        
+        requirejs(['jquery', 'bootstrap', 'fuelux', 'moment', 'momenttimezone', 'summernote'], 
+			function($, bootstrap, fuelux, moment, timezone, summernote) {				
+			$( document ).ready(function() {  
+                $('.summernote').summernote({height: 100});
+		  });
+		});
+	</script>
+
+      {% endblock %}

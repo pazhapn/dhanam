@@ -14,7 +14,7 @@ public class JSONUtil {
 		mapper = new ObjectMapper();
 		mapper.registerModule(new AfterburnerModule());
 	}
-	public static <T> T getObject(String content, Class<T> c) throws Exception{
+	public static <T> T read(String content, Class<T> c) throws Exception{
 		return mapper.readValue(content, c);
 	}
 	
@@ -25,9 +25,5 @@ public class JSONUtil {
 			log.error(e.getMessage(), e);
 		}
 		return null;
-	}
-	
-	public static <T> String render(T object){
-		return write(object);
 	}
 }

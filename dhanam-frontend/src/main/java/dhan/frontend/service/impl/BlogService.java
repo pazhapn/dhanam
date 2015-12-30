@@ -17,6 +17,7 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 
 import dhan.frontend.model.Author;
+import dhan.frontend.model.AuthorPosts;
 import dhan.frontend.model.LoginResult;
 import dhan.frontend.model.Post;
 import dhan.frontend.util.JSONUtil;
@@ -24,19 +25,21 @@ import dhan.frontend.util.JSONUtil;
 public class BlogService {
 	private static final Logger log = LoggerFactory.getLogger(BlogService.class);
 	
-	private String authorDir;
-	private String postDir;
-	private String draftDir;
+	private String authorFolder;
+	private String postFolder;
+	private String draftFolder;
+	private String authorPostsFolder;
 	
-	public BlogService(String authorDir, String postDir, String draftDir){
-		this.authorDir = authorDir;
-		this.postDir = postDir;			
-		this.draftDir = draftDir;
+	public BlogService(String authorFolder, String postFolder, String draftFolder, String authorPostsFolder){
+		this.authorFolder = authorFolder;
+		this.postFolder = postFolder;			
+		this.draftFolder = draftFolder;
+		this.authorPostsFolder = authorPostsFolder;
 	}
 
 	public LoginResult checkAuthor(Author author) throws Exception {
 		LoginResult result = new LoginResult();
-		Author authorFound = JSONUtil.getObject(Files.toString(new File(authorDir+author.getAuthorId()+".json"), Charsets.UTF_8), Author.class);//authorDao.getUserbyUsername(author.getAuthorId());
+		Author authorFound = JSONUtil.read(Files.toString(new File(authorFolder+author.getAuthorId()+".json"), Charsets.UTF_8), Author.class);//authorDao.getUserbyUsername(author.getAuthorId());
 		if(authorFound == null) {
 			result.setError("Invalid authorname");
 		} else if(!author.getPassword().equals(authorFound.getPassword())) {
@@ -46,10 +49,10 @@ public class BlogService {
 		}
 		return result;
 	}
-	
+	/*
 	public List<String> getDrafts(Author author){
 		List<String> drafts = new ArrayList<>();
-		try (DirectoryStream<Path> directoryStream = java.nio.file.Files.newDirectoryStream(Paths.get(this.draftDir+author.getAuthorId()+File.separator))) {
+		try (FolderectoryStream<Path> directoryStream = java.nio.file.Files.newDirectoryStream(Paths.get(this.draftFolder+author.getAuthorId()+File.separator))) {
 			for (Path path : directoryStream) {
 				drafts.add(path.getFileName().toString());
 			}
@@ -58,11 +61,22 @@ public class BlogService {
 		}
 		return drafts;
 	}
-		
-	public Post getDraft(String authorId, String title) throws Exception{
+	*/
+
+	public AuthorPosts getDraftsAndPosts(Author author) throws Exception{
+		File f = new File(this.authorPostsFolder+author.getAuthorId()+".json");
+		if(f.exists()) return JSONUtil.read(Files.toString(f, Charsets.UTF_8), AuthorPosts.class);
+		else return new AuthorPosts(author.getAuthorId(), new ArrayList<String>(), new ArrayList<String>());
+	}
+	
+	public Post getDraft(String status, String authorId, String id) throws Exception{
 		try{
-			if(!title.equals("new")){
-				return JSONUtil.getObject(Files.toString(new File(this.draftDir+authorId+File.separator+title+".json"), Charsets.UTF_8), Post.class);
+			if(!id.equals("new")){
+				if(status.equals("draft")){
+					return JSONUtil.read(Files.toString(new File(this.draftFolder+authorId+File.separator+id+".json"), Charsets.UTF_8), Post.class);
+				}else{
+					return JSONUtil.read(Files.toString(new File(this.postFolder+authorId+File.separator+id+".json"), Charsets.UTF_8), Post.class);
+				}
 			}
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -70,7 +84,7 @@ public class BlogService {
 		return new Post();
 	}
 	/*
-		try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(Paths.get(directory))) {
+		try (FolderectoryStream<Path> directoryStream = Files.newFolderectoryStream(Paths.get(directory))) {
             for (Path path : directoryStream) {
                 fileNames.add(path.toString());
             }

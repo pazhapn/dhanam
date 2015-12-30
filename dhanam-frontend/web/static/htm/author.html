@@ -2,7 +2,7 @@
 
 
 {% block content %}
-<a href="/edit/{{authorId}}/new"/>Create New Post</a>
+<a href="/edit/draft/{{authorId}}/new"/>Create New Draft</a>
 <table class="table table-striped">
     <thead>
         <tr>
@@ -12,7 +12,21 @@
     <tbody>
         {% for draft in drafts %}
         <tr>
-            <th scope="row"><a href="/edit/{{authorId}}/{{draft}}"/>{{draft}}</a></th>
+            <th scope="row"><a href="/edit/draft/{{authorId}}/{{draft}}"/>{{draft}}</a></th>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Posts</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for post in posts %}
+        <tr>
+            <th scope="row"><a href="/edit/post/{{authorId}}/{{post}}"/>{{post}}</a></th>
         </tr>
         {% endfor %}
     </tbody>

@@ -5,6 +5,9 @@ import static spark.Spark.port;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.util.Map;
 import java.util.Properties;
 
 import com.mitchellbosecke.pebble.PebbleEngine;
@@ -33,7 +36,8 @@ public class WebConfig {
 			this.engine = new PebbleEngine.Builder().loader(loader).build();
 		}
 		this.service = new BlogService(this.prop.getProperty("authorFolder"), 
-				this.prop.getProperty("postFolder"), this.prop.getProperty("draftFolder"));
+				this.prop.getProperty("postFolder"), this.prop.getProperty("draftFolder"), 
+				this.prop.getProperty("authorPostsFolder"));
 	}
 
 	public static Properties getProperties(String propsFilePath) throws Exception{
@@ -51,7 +55,19 @@ public class WebConfig {
 		}
 		return prop;
 	}
-
+	
+	public String render(Map<String, Object> context, String peb) throws Exception{
+		Writer writer = new StringWriter();
+		if(context != null && !context.isEmpty())
+			engine.getTemplate(peb).evaluate(writer, context);
+		else
+			engine.getTemplate(peb).evaluate(writer);
+		return writer.toString();
+	}
+	
+	public String render(String peb) throws Exception{
+		return render(null, peb);
+	}
 	public PebbleEngine getEngine() {
 		return engine;
 	}

@@ -10,7 +10,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import dhan.frontend.model.Author;
+import dhan.frontend.model.AuthorPosts;
 import dhan.frontend.model.LoginResult;
+import dhan.frontend.model.Post;
+import dhan.frontend.util.JSONUtil;
 import spark.ModelAndView;
 import spark.Request;
 import spark.template.pebble.PebbleTemplateEngine;
@@ -59,15 +62,42 @@ public class RoutesHandler {
 			Author author = getAuthenticatedAuthor(req);
 			Map<String, Object> map = new HashMap<>();
 			map.put("authorId", author.getAuthorId());
-			map.put("drafts", webConfig.getService().getDrafts(author));
+			AuthorPosts ap = webConfig.getService().getDraftsAndPosts(author);
+			map.put("drafts", ap.getDrafts());
+			map.put("posts", ap.getPosts());
 			return new ModelAndView(map, "author");
         }, new PebbleTemplateEngine(webConfig.getEngine()));
 		
-		get("/edit/:authorId/:title", (req, res) -> {
+		post("/edit/draft/", (req, res) -> {
+			Map<String, Object> map = new HashMap<>();
+			log.debug("entered post");
+			Post post = new Post();
+			try {
+				MultiMap<String> params = new MultiMap<String>();
+				UrlEncoded.decodeTo(req.body(), params, "UTF-8");
+				BeanUtils.populate(post, params);
+			} catch (Exception e) {
+				halt(501);
+				return null;
+			}
+			log.debug("entered post r {}", JSONUtil.write(post));
+			res.redirect("/author/home");
+			halt();
+			return new ModelAndView(map, "");
+        }, new PebbleTemplateEngine(webConfig.getEngine()));
+		
+		get("/edit/draft/:authorId/:id", (req, res) -> {
 			Map<String, Object> map = new HashMap<>();
 			map.put("authorId", req.params(":authorId"));
-			map.put("title", req.params(":title"));
-			map.put("draft", webConfig.getService().getDraft(req.params(":authorId"), req.params(":title")));
+			Post post = webConfig.getService().getDraft("draft", req.params(":authorId"), req.params(":id"));
+			map.put("id", post.getId());
+			map.put("authorId", req.params(":authorId"));
+			map.put("status", "draft");
+			map.put("postDate", post.getPostDate());
+			map.put("title", post.getTitle());
+			map.put("tags", post.getTags());
+			map.put("initialParas", post.getInitialParas());
+			map.put("remainingParas", post.getRemainingParas());
 			return new ModelAndView(map, "edit");
         }, new PebbleTemplateEngine(webConfig.getEngine()));
 		

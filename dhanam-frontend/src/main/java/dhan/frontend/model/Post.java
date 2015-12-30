@@ -7,6 +7,8 @@ public class Post {
 	private String title;
 	private String status;
 	private String tags;
+	private String initialParas;
+	private String remainingParas;
 	
 	public String getId() {
 		return id;
@@ -43,6 +45,18 @@ public class Post {
 	}
 	public void setTags(String tags) {
 		this.tags = tags;
+	}
+	public String getInitialParas() {
+		return initialParas;
+	}
+	public void setInitialParas(String initialParas) {
+		this.initialParas = initialParas;
+	}
+	public String getRemainingParas() {
+		return remainingParas;
+	}
+	public void setRemainingParas(String remainingParas) {
+		this.remainingParas = remainingParas;
 	}
 	
 }
