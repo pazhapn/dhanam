@@ -17,27 +17,40 @@
     <!-- Blog Entries Column -->
     <div class="col-md-8">
         <h2 class="page-header">
-            Becoming wealthy, steps to fulfill your NRI dream
+            Becoming wealthy.
             <br>
-            <small>Stop calling it as luck and start calculating. <br> 
+            <small>Assume you don't have luck and start calculating. <br> 
             It's just simple math and your will.</small>
         </h2>        
-        
+        {% for post in posts %}
+        <!-- First Blog Post -->
         <h3>
             <a href="/{{post.url}}">{{post.title}}</a>
         </h3>
         <p class="lead">
             by <a href="/">{{post.authorId}}</a>
         </p>
-        
+        <!--
+        <p><span class="glyphicon glyphicon-time"></span> Posted on August 28, 2013 at 10:00 PM</p>
+        -->
         <hr>
         <img class="img-responsive" src="{{post.image}}" alt="">
         <hr>
         {{post.initialParas}}
-        <br>
-        {{post.remainingParas}}
+        <a class="btn btn-primary" href="#">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
 
         <hr>
+        {% endfor %}
+        
+        <!-- Pager -->
+        <ul class="pager">
+            <li class="previous">
+                <a href="#">&larr; Older</a>
+            </li>
+            <li class="next">
+                <a href="#">Newer &rarr;</a>
+            </li>
+        </ul>
     </div>
 
     <!-- Blog Sidebar Widgets Column -->

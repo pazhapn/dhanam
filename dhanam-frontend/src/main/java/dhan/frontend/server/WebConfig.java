@@ -13,9 +13,7 @@ import java.util.Properties;
 import com.mitchellbosecke.pebble.PebbleEngine;
 import com.mitchellbosecke.pebble.loader.FileLoader;
 
-import dhan.frontend.model.Author;
 import dhan.frontend.service.impl.BlogService;
-import spark.Request;
 
 public class WebConfig {
 	private final BlogService service;
@@ -35,9 +33,7 @@ public class WebConfig {
 		}else{
 			this.engine = new PebbleEngine.Builder().loader(loader).build();
 		}
-		this.service = new BlogService(this.prop.getProperty("authorFolder"), 
-				this.prop.getProperty("postFolder"), this.prop.getProperty("draftFolder"), 
-				this.prop.getProperty("authorPostsFolder"));
+		this.service = new BlogService(this.prop.getProperty("dataFolder"), this.prop.getProperty("createDB"));
 	}
 
 	public static Properties getProperties(String propsFilePath) throws Exception{

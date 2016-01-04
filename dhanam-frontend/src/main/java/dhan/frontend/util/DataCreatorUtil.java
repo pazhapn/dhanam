@@ -1,7 +1,6 @@
 package dhan.frontend.util;
 
 import java.io.File;
-import java.io.FileWriter;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;

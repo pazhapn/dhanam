@@ -3,6 +3,7 @@ package dhan.frontend.util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.module.afterburner.AfterburnerModule;
 
@@ -15,6 +16,10 @@ public class JSONUtil {
 		mapper.registerModule(new AfterburnerModule());
 	}
 	public static <T> T read(String content, Class<T> c) throws Exception{
+		return mapper.readValue(content, c);
+	}
+	
+	public static <T> T read(String content, TypeReference<T> c) throws Exception{
 		return mapper.readValue(content, c);
 	}
 	

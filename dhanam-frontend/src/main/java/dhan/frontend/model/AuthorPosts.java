@@ -1,15 +1,15 @@
 package dhan.frontend.model;
 
-import java.util.List;
+import java.util.Map;
 
 public class AuthorPosts {
 	private String authorId;
-	private List<String> drafts;
-	private List<String> posts;
+	private Map<String, String> drafts;
+	private Map<String, String> posts;
 	
 	public AuthorPosts(){}
 	
-	public AuthorPosts(String authorId, List<String> drafts, List<String> posts){
+	public AuthorPosts(String authorId, Map<String, String> drafts, Map<String, String> posts){
 		this.authorId = authorId;
 		this.drafts = drafts;
 		this.posts = posts;
@@ -21,16 +21,16 @@ public class AuthorPosts {
 	public void setAuthorId(String authorId) {
 		this.authorId = authorId;
 	}
-	public List<String> getDrafts() {
+	public Map<String, String> getDrafts() {
 		return drafts;
 	}
-	public void setDrafts(List<String> drafts) {
+	public void setDrafts(Map<String, String> drafts) {
 		this.drafts = drafts;
 	}
-	public List<String> getPosts() {
+	public Map<String, String> getPosts() {
 		return posts;
 	}
-	public void setPosts(List<String> posts) {
+	public void setPosts(Map<String, String> posts) {
 		this.posts = posts;
 	}
 	

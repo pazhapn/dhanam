@@ -4,14 +4,14 @@ import static spark.Spark.awaitInitialization;
 
 public class App {
 	private WebConfig webConfig;
-	private RoutesHandler routesHandler;
+	private AllRoutesHandler routesHandler;
 	
 	public App(String mode) throws Exception{
 		this.webConfig = new WebConfig(mode);
 		
 	}
 	public void run(){
-		this.routesHandler = new RoutesHandler(webConfig);
+		this.routesHandler = new AllRoutesHandler(webConfig);
 		this.routesHandler.setupRoutes();
 		awaitInitialization();
 	}

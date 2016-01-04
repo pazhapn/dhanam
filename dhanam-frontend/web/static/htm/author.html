@@ -1,4 +1,4 @@
-{% extends "base" %}
+{% extends "admin" %}
 
 
 {% block content %}
@@ -6,13 +6,17 @@
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>Drafts</th>
+            <th>Draft Id [Edit]</th>
+            <th>Draft Title [View]</th>
+            <th>Publish</th>
         </tr>
     </thead>
     <tbody>
-        {% for draft in drafts %}
+        {% for key in draftKeys %}
         <tr>
-            <th scope="row"><a href="/edit/draft/{{authorId}}/{{draft}}"/>{{draft}}</a></th>
+            <th scope="row"><a href="/edit/draft/{{authorId}}/{{key}}"/>{{key}}</a></th>
+            <th scope="row"><a href="/{{drafts.get(key)}}"/>{{drafts.get(key)}}</a></th>
+            <th scope="row"><a href="/edit/publish/{{authorId}}/{{key}}"/>Publish</a></th>
         </tr>
         {% endfor %}
     </tbody>
@@ -20,13 +24,15 @@
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>Posts</th>
+            <th>Post Id [Edit]</th>
+            <th>Post Title [View]</th>
         </tr>
     </thead>
     <tbody>
-        {% for post in posts %}
+        {% for key in postKeys %}
         <tr>
-            <th scope="row"><a href="/edit/post/{{authorId}}/{{post}}"/>{{post}}</a></th>
+            <th scope="row"><a href="/edit/post/{{authorId}}/{{key}}"/>{{key}}</a></th>
+            <th scope="row"><a href="/{{posts.get(key)}}"/>{{posts.get(key)}}</a></th>
         </tr>
         {% endfor %}
     </tbody>
