@@ -2,7 +2,11 @@ package dhan.frontend.server;
 
 import static spark.Spark.awaitInitialization;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class App {
+	private static final Logger log = LoggerFactory.getLogger(App.class);
 	private WebConfig webConfig;
 	private AllRoutesHandler routesHandler;
 	
@@ -20,6 +24,7 @@ public class App {
 		try{
 	    	app = new App(args[0]);
 	    	app.run();
+	    	if(log.isInfoEnabled()) log.info("server started ");
 		}catch(Exception e){
 			e.printStackTrace();
 		}finally{

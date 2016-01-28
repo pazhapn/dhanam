@@ -5,17 +5,12 @@
     <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
       <Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>
     </encoder>
+		
+	    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+	        <level>INFO</level>
+	    </filter>
   </appender>
- 
-  <!--
-  <appender name="STDOUT" class="ch.qos.logback.core.FileAppender">
-	<file>${LOG_DIR}/online.log</file>
-    <append>true</append>
-    <encoder>
-      <Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>
-    </encoder>
- </appender> 
-  -->
+  
   <Logger name="org" level="warn"/>
     <Logger name="io" level="warn"/>
     <Logger name="com" level="warn"/>
@@ -23,7 +18,7 @@
     <Logger name="dhan" level="debug"/>
    
  
-  <root level="debug">
-    <appender-ref ref="STDOUT" />
+  <root>
+    <appender-ref ref="STDOUT"/>
   </root>
 </configuration>
